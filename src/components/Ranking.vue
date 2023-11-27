@@ -9,6 +9,40 @@ let teams = ref([
   { name: 'De Koele Kikkers', score: 0 },
   { name: 'De Zwemmende Zwanen', score: 0 },
 ]);
+let socket = null;
+
+onMounted(() => {
+  console.log('mounted');
+  // connect to the WebSocket server
+  socket = new WebSocket('ws://localhost:3000/primus');
+
+  // listen to messages from the WebSocket server
+  socket.onmessage = (event) => {
+    console.log(event.data);
+    let newData = JSON.parse(event.data);
+    console.log('Received message:', newData);
+    if (newData.action === 'updateStats') {
+      const teamToUpdate = teams.value.find((team) => team.name === newData.team);
+      if (teamToUpdate) {
+        teamToUpdate.score = newData.score;
+      }
+    }
+  };
+});
+
+const updateStatistics = () => {
+  // send message to WebSocket server
+  socket.send(
+    JSON.stringify({
+      action: 'updateStats',
+      team: selectedTeam.value,
+      score: score.value,
+    })
+  );
+  // reset input values
+  selectedTeam.value = '';
+  score.value = 0;
+};
 
 </script>
 
