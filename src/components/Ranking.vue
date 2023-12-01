@@ -14,7 +14,8 @@ let socket = null;
 onMounted(() => {
   console.log('mounted');
   // connect to the WebSocket server
-  socket = new WebSocket('ws://localhost:3000/primus');
+  //socket = new WebSocket('ws://localhost:3000/primus');
+  socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
 
   // listen to messages from the WebSocket server
   socket.onmessage = (event) => {
