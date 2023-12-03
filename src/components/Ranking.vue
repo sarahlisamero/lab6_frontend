@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 let selectedTeam = ref('');
 let score = ref(0);
@@ -12,8 +15,8 @@ let teams = ref([
 let socket = null;
 
 onMounted(() => {
-   //socket = new WebSocket('ws://localhost:3000/primus');
-  socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
+  socket = new WebSocket('ws://localhost:3000/primus');
+  //socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
 });
 
 const updateStatistics = () => {
@@ -28,11 +31,16 @@ const updateStatistics = () => {
   selectedTeam.value = '';
   score.value = 0;
 };
+
+const goToScoreboard = () => {
+  router.push('/scoreboard');
+};
 </script>
 
 <template>
   <div>
     <h1>Ranking</h1>
+    <button @click="goToScoreboard">Go to Scoreboard</button>
     <div>
       <label for="team">Select Team:</label>
       <select v-model="selectedTeam">
