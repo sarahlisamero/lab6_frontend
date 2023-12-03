@@ -1,10 +1,9 @@
 <script setup>
-import Ranking from './components/Ranking.vue';
 </script>
 
 <template>
   <div>
-    <Ranking/>
+    <router-view />
   </div>
 </template>
 

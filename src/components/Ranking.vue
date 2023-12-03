@@ -12,23 +12,8 @@ let teams = ref([
 let socket = null;
 
 onMounted(() => {
-  console.log('mounted');
-  // connect to the WebSocket server
-  //socket = new WebSocket('ws://localhost:3000/primus');
-  socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
-
-  // listen to messages from the WebSocket server
-  socket.onmessage = (event) => {
-    console.log(event.data);
-    let newData = JSON.parse(event.data);
-    console.log('Received message:', newData);
-    if (newData.action === 'updateStats') {
-      const teamToUpdate = teams.value.find((team) => team.name === newData.team);
-      if (teamToUpdate) {
-        teamToUpdate.score = newData.score;
-      }
-    }
-  };
+   socket = new WebSocket('ws://localhost:3000/primus');
+  //socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
 });
 
 const updateStatistics = () => {
@@ -40,20 +25,14 @@ const updateStatistics = () => {
       score: score.value,
     })
   );
-  // reset input values
   selectedTeam.value = '';
   score.value = 0;
 };
-
 </script>
 
 <template>
   <div>
-    <ul>
-      <li v-for="team in teams" :key="team.name">
-        {{ team.name }} - {{ team.score }}
-      </li>
-    </ul>
+    <h1>Ranking</h1>
     <div>
       <label for="team">Select Team:</label>
       <select v-model="selectedTeam">
@@ -69,5 +48,4 @@ const updateStatistics = () => {
 </template>
 
 <style scoped>
-
 </style>
