@@ -12,7 +12,7 @@ let teams = ref([
 ]);
 
 //const socket = new WebSocket('ws://localhost:3000/primus');
-socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
+const socket = new WebSocket('wss://labo6-frontend.onrender.com/primus')
 
 onMounted(() => {
   socket.onmessage = (event) => {
